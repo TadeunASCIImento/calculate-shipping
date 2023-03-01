@@ -1,5 +1,8 @@
 package com.rest.calculate.shipping.controllers;
 
+import static com.rest.calculate.shipping.controllers.constants.CalculateShippingControllerConstants.END_POINT_CALCULATE_SHIPPING;
+import static com.rest.calculate.shipping.controllers.constants.CalculateShippingControllerConstants.MSG_ERROR_CALCULATING_SHIPPING;
+import static com.rest.calculate.shipping.controllers.constants.CalculateShippingControllerConstants.MSG_INFO_ZIP_CODE_NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
@@ -24,18 +27,18 @@ public class CalculateShippingController {
 	@Autowired
 	private AddressService addrService;
 
-	@RequestMapping(method = GET, value = "/shipping", produces = APPLICATION_JSON_VALUE)
+	@RequestMapping(method = GET, value = END_POINT_CALCULATE_SHIPPING, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> calculateShipping(@RequestBody Cep cep) throws Exception {
 		try {
 			Address address = addrService.getAddressByCep(cep.getCep());
 			if (address.isErro()) {
-				log.info("[INFO]: Zip code not found.");
-				return new ResponseEntity<>("[INFO]: Zip code not found.", HttpStatus.OK);
+				log.info(MSG_INFO_ZIP_CODE_NOT_FOUND);
+				return new ResponseEntity<>(MSG_INFO_ZIP_CODE_NOT_FOUND, HttpStatus.OK);
 			}
 			return new ResponseEntity<>(addrService.calculateShippingValueByAddress(address), HttpStatus.OK);
 		} catch (Exception e) {
-			log.error("[Error] Calculating shipping",e.getMessage(), e);
-			return new ResponseEntity<>("[Error] Calculating shipping", HttpStatus.INTERNAL_SERVER_ERROR);
+			log.error(MSG_ERROR_CALCULATING_SHIPPING, e.getMessage(), e);
+			return new ResponseEntity<>(MSG_ERROR_CALCULATING_SHIPPING, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
