@@ -21,4 +21,5 @@ public class Address implements Serializable{
 	    private Long gia;
 	    private Integer ddd;
 	    private Long siafi;
+	    private boolean erro;
 }
