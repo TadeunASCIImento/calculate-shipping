@@ -4,11 +4,11 @@ import static com.rest.calculate.shipping.controllers.constants.CalculateShippin
 import static com.rest.calculate.shipping.controllers.constants.CalculateShippingControllerConstants.MSG_ERROR_CALCULATING_SHIPPING;
 import static com.rest.calculate.shipping.controllers.constants.CalculateShippingControllerConstants.MSG_INFO_ZIP_CODE_NOT_FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +27,7 @@ public class CalculateShippingController {
 	@Autowired
 	private AddressService addrService;
 
-	@RequestMapping(method = GET, value = END_POINT_CALCULATE_SHIPPING, produces = APPLICATION_JSON_VALUE)
+	@PostMapping(value = END_POINT_CALCULATE_SHIPPING, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> calculateShipping(@RequestBody Cep cep) throws Exception {
 		try {
 			Address address = addrService.getAddressByCep(cep.getCep());
