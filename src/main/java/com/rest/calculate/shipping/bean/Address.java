@@ -2,11 +2,14 @@ package com.rest.calculate.shipping.bean;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Component
 public class Address implements Serializable{
 
 	private static final long serialVersionUID = 152938413907408373L;

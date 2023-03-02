@@ -2,6 +2,8 @@ package com.rest.calculate.shipping.dto;
 
 import java.io.Serializable;
 
+import org.springframework.stereotype.Component;
+
 import com.rest.calculate.shipping.bean.Address;
 
 import lombok.Getter;
@@ -9,6 +11,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Component
 public class AddressDTO implements Serializable{
 
 	private static final long serialVersionUID = -7528000448592385128L;
