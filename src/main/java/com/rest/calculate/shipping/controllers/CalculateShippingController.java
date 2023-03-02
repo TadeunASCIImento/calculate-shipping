@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.rest.calculate.shipping.bean.Address;
 import com.rest.calculate.shipping.bean.Cep;
+import com.rest.calculate.shipping.bean.InvalidInputException;
 import com.rest.calculate.shipping.service.AddressService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +34,13 @@ public class CalculateShippingController {
 			Address address = addrService.getAddressByCep(cep.getCep());
 			if (address.isErro()) {
 				log.info(MSG_INFO_ZIP_CODE_NOT_FOUND);
-				return new ResponseEntity<>(MSG_INFO_ZIP_CODE_NOT_FOUND, HttpStatus.OK);
+				throw new InvalidInputException(MSG_INFO_ZIP_CODE_NOT_FOUND);
 			}
 			return new ResponseEntity<>(addrService.calculateShippingValueByAddress(address), HttpStatus.OK);
+		} catch (InvalidInputException iie){
+			log.error(MSG_ERROR_CALCULATING_SHIPPING, iie.getMessage(), iie);
+			return new ResponseEntity<>(MSG_INFO_ZIP_CODE_NOT_FOUND, HttpStatus.NOT_FOUND);
+			
 		} catch (Exception e) {
 			log.error(MSG_ERROR_CALCULATING_SHIPPING, e.getMessage(), e);
 			return new ResponseEntity<>(MSG_ERROR_CALCULATING_SHIPPING, HttpStatus.INTERNAL_SERVER_ERROR);
